@@ -18,64 +18,85 @@ namespace Shapes
         {
             _shapesService = dbContext;
         }
-        
-      
-        public void ShowShapesMenu()
-        {
-            _shapesService.CalculateShape();
-            //Console.Clear();
-            //Console.WriteLine("Shapes Menu");
-            //Console.WriteLine("===========");
-            //Console.WriteLine("1: Rectangle");
-            //Console.WriteLine("2: Triangel");
-            //Console.WriteLine("0: Huvudmenyn");
 
-            //var shapesMenuAnswer = Console.ReadLine();
-            //if (shapesMenuAnswer == "0") return;
-            
-            //checkShapesMenuAnswer(shapesMenuAnswer);
+       public  void MainMenu()
+        {
+            while (true)
+            {
+                Console.Clear();
+                string[] options = {
+                        "1. Calculate New Shape",
+                        "2. View All Shapes",
+                        "3. Update a Shape",
+                        "4. Delete a Shape",
+                        "5. Exit"
+                    };
+
+                int choice = DisplayMenu("Main Menu", options);
+
+                switch (choice)
+                {
+                    case 1:
+                        Console.WriteLine("You chose to calculate a new shape.");
+                        _shapesService.CalculateShape();
+                        break;
+                    case 2:
+                        Console.WriteLine("You chose to view all shapes.");
+                        _shapesService.ShowAllShapes();
+                        break;
+                    case 3:
+                        Console.WriteLine("You chose to update a shape.");
+                        _shapesService.UpdateShapeById();
+                        break;
+                    case 4:
+                        Console.WriteLine("You chose to delete a shape.");
+                        _shapesService.DeleteShapeById();
+                        break;
+                    case 5:
+                        Console.WriteLine("Exiting... Goodbye!");
+                        return;
+                }
+            }
         }
 
-        //private void checkShapesMenuAnswer(string? menuChoice)
-        //{
-        //    var context = new Context();
+        int DisplayMenu(string title, string[] options)
+        {
+            int currentIndex = 0;
 
-        //    switch (menuChoice)
-        //    {
-        //        case "1":
-        //            context.SetStrategy(new RectangleStrategy());
-        //            Console.WriteLine("Vad är bredden på din rektangel?");
-        //            var input1 = Convert.ToInt32(Console.ReadLine());
-        //            Console.WriteLine("... och vad är höjden på din rektangel?");
-        //            var input2 = Convert.ToInt32(Console.ReadLine());
-        //            var input3 = 0; // Används EJ!
-        //            var showResult = context.ExecuteStrategy(input1, input2, input3);
-        //            Console.WriteLine($"Rektangel: Bredd: {input1}, Höjd: {input2} Area = {showResult.Area}");
-        //            Console.WriteLine($"Rektangel: Bredd: {input1}, Höjd: {input2} Omkrets = {showResult.Perimiter}");
+            while (true)
+            {
+                Console.Clear();
+                Console.WriteLine($"--- {title} ---\n");
 
-        //            // Nu sparar vi all data till Db :)
-        //            _shapesService.shapeDatas.Add(new ShapeData
-        //            {
-        //                Input1 = input1,
-        //                Input2 = input2,
-        //                Input3 = input3,
-        //                Area = showResult.Area,
-        //                Perimeter = showResult.Perimiter,
-        //                Date = DateTime.Now,
-        //            });
-        //            _shapesService.SaveChanges();
-        //            Console.WriteLine("Tryck på valfri tangent för att gå vidare.");
-        //            Console.ReadLine();
-        //            break;
-        //        case "2":
-        //            Console.WriteLine("Inte ska ni få ALL kod! :)");
-        //            Console.ReadLine();
-        //            break;
-        //        case "0":
-        //        default:
-        //            break;
-        //    }
-        //}
+                // Display options with hover effect
+                for (int i = 0; i < options.Length; i++)
+                {
+                    if (i == currentIndex)
+                    {
+                        Console.ForegroundColor = ConsoleColor.Green;
+                        Console.WriteLine($"> {options[i]}");
+                        Console.ResetColor();
+                    }
+                    else
+                    {
+                        Console.WriteLine($"  {options[i]}");
+                    }
+                }
+
+                var key = Console.ReadKey(true).Key;
+
+                switch (key)
+                {
+                    case ConsoleKey.UpArrow:
+                        currentIndex = (currentIndex == 0) ? options.Length - 1 : currentIndex - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        currentIndex = (currentIndex == options.Length - 1) ? 0 : currentIndex + 1;
+                        break;
+                    case ConsoleKey.Enter:
+                        return currentIndex + 1;
+                }
+            }
+        }
     }
 }
-

@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLiberry", "ClassLiberr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes", "Shapes\Shapes.csproj", "{C3851B51-61EF-4080-836E-0B099B880E07}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MainMenu", "MenuExample\MainMenu.csproj", "{CCF2BF9A-7130-493A-9443-0E53A35B78CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{C3851B51-61EF-4080-836E-0B099B880E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C3851B51-61EF-4080-836E-0B099B880E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C3851B51-61EF-4080-836E-0B099B880E07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCF2BF9A-7130-493A-9443-0E53A35B78CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCF2BF9A-7130-493A-9443-0E53A35B78CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCF2BF9A-7130-493A-9443-0E53A35B78CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCF2BF9A-7130-493A-9443-0E53A35B78CA}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
