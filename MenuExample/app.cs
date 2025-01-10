@@ -1,6 +1,8 @@
 ﻿
 using Shapes;
 using Shapes.Strategy;
+using ClassLiberry;
+using MyClassLibrary;
 
 namespace MainMenu
 {
@@ -10,7 +12,11 @@ namespace MainMenu
         // A Factory sure would be nice here :)
         public IShapesService CalcServices { get; set; } = new ShapesServerice();
         
-
+        public void BulidDatabase()
+        {
+            Build build = new Build();
+            build.BuildDb();
+        }
         public void ShowMainMenu()
         {
             while (true)
