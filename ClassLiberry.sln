@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.12.35521.163 d17.12
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClassLiberry", "ClassLiberry\ClassLiberry.csproj", "{3214072F-CDF6-4150-A8A0-17A99EE54D87}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Shapes", "Shapes\Shapes.csproj", "{C3851B51-61EF-4080-836E-0B099B880E07}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{3214072F-CDF6-4150-A8A0-17A99EE54D87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3214072F-CDF6-4150-A8A0-17A99EE54D87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3214072F-CDF6-4150-A8A0-17A99EE54D87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3214072F-CDF6-4150-A8A0-17A99EE54D87}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C3851B51-61EF-4080-836E-0B099B880E07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C3851B51-61EF-4080-836E-0B099B880E07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C3851B51-61EF-4080-836E-0B099B880E07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C3851B51-61EF-4080-836E-0B099B880E07}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
