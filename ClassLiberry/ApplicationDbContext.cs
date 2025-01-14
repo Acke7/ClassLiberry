@@ -25,7 +25,7 @@ namespace ClassLiberry
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer(@"Server=.;Database=ClassLiberry;Trusted_Connection=True;TrustServerCertificate=true;");
+                optionsBuilder.UseSqlServer(@"Server=localhost\\SQLEXPRESS;Database=ClassLiberry;Trusted_Connection=True;TrustServerCertificate=true;MultipleActiveResultSets=true");
             }
         }
     }

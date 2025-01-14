@@ -8,15 +8,20 @@ namespace Shapes.Strategy
 {
     public class TriangelStrategy : IStrategy
     {
-        public AreaPerimiter Execute(double a, double b, double c)
+        public AreaPerimiter Execute(double sideA, double sideB, double sideC)
         {
-            // Denna logik ska göras om för att funka med en triangel!!!
-            // Just nu är det för rektangel :)
-            var returnValues = new AreaPerimiter();
-            returnValues.Area = a * b;
-            returnValues.Perimiter = (a * 2) + (b * 2);
+            var areaPerimeterResult = new AreaPerimiter();
 
-            return returnValues;
+            // Calculate the semi-perimeter
+            double semiPerimeter = (sideA + sideB + sideC) / 2;
+
+            // Calculate the area using Heron's formula
+            areaPerimeterResult.Area = Math.Sqrt(semiPerimeter * (semiPerimeter - sideA) * (semiPerimeter - sideB) * (semiPerimeter - sideC));
+
+            // Calculate the perimeter
+            areaPerimeterResult.Perimiter = sideA + sideB + sideC;
+
+            return areaPerimeterResult;
         }
     }
 }

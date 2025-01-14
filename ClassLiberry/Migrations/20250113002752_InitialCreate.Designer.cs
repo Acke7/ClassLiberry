@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ClassLiberry.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250110015129_InitialCreate2")]
-    partial class InitialCreate2
+    [Migration("20250113002752_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

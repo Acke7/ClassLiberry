@@ -10,15 +10,18 @@ namespace MainMenu
     {
         // Oh no!! The attack of the concretions!!
         // A Factory sure would be nice here :)
-        public IShapesService CalcServices { get; set; } = new ShapesServerice();
-        
-        public void BulidDatabase()
+     
+        private ApplicationDbContext _dbContext;
+        public void Run()
         {
-            Build build = new Build();
-            build.BuildDb();
+            var build = new Build();
+            _dbContext = build.BuildDb();
+            ShowMainMenu();
+
         }
         public void ShowMainMenu()
         {
+            
             while (true)
             {
                 Console.Clear();
@@ -45,9 +48,10 @@ namespace MainMenu
         {
             switch (resp)
             {
-                case "1": // Calculator
-                    var gotoProject1 = new ShapesMenu(CalcServices);
-                    gotoProject1.MainMenu();
+                case "1": 
+                    var shapeService = new ShapeService(_dbContext);
+                    var shapesMenu = new ShapesMenu(shapeService);
+                    shapesMenu.MainMenu();
                     break;
                 //case "2": // Shapes
                 //    var gotoProject2 = new Project2App(FormsServices);

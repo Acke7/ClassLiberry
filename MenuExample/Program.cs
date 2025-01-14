@@ -2,5 +2,5 @@
 
 // Detta är satt till startup projekt...
 var app = new app();
-app.BulidDatabase();
-app.ShowMainMenu();
+
+app.Run();

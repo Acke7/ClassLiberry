@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Shapes.Strategy
 {
-    public class RectangleStrategy : IStrategy
+    public class ParallelogramStrategy : IStrategy
     {
-        public AreaPerimiter Execute(double length, double width, double unused)
+        public AreaPerimiter Execute(double baseLength, double height, double sideLength)
         {
             var returnValues = new AreaPerimiter();
-            returnValues.Area = length * width;
-            returnValues.Perimiter = 2 * (length + width);
+            returnValues.Area = baseLength * height;
+            returnValues.Perimiter = 2 * (baseLength + sideLength);
 
             return returnValues;
         }
