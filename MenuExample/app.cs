@@ -6,6 +6,8 @@ using MyClassLibrary;
 using EasyCalculator.Service;
 using Calculator;
 using EasyCalculator;
+using RPC.Service;
+using Rps;
 
 namespace MainMenu
 {
@@ -61,10 +63,11 @@ namespace MainMenu
                     var calculatorMenu = new CalculatorMenu(calculatorService);
                     calculatorMenu.MainMenu();
                     break;
-                //case "3": // Rock Paper Scissors
-                //    var gotoProject3 = new Project3App(RPSServices);
-                //    gotoProject3.Project3ShowMenu();
-                //    break;
+                case "3": // Rock Paper Scissors
+                    var rpcService = new RPCService(_dbContext);
+                    var rpcMenu = new RPCMenu(rpcService);
+                    rpcMenu.MainMenu();
+                    break;
                 default:
                     break;
             }

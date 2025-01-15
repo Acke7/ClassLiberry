@@ -11,7 +11,7 @@ namespace ClassLiberry
     public class ApplicationDbContext : DbContext
     {
         public DbSet<ShapeData> shapeDatas { get; set; }
-        //public DbSet<RPCGame> rpcGames { get; set; }
+        public DbSet<Rpc> rpcGames { get; set; }
         public DbSet<CalculationData> Calculations { get; set; }
         public ApplicationDbContext()
         {

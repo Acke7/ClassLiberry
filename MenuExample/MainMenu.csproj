@@ -9,7 +9,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Calculator\Calculator.csproj" />
-    <ProjectReference Include="..\ClassLiberry\ClassLiberry.csproj" />
+    <ProjectReference Include="..\ClassLiberry\ClassLibrary.csproj" />
+    <ProjectReference Include="..\Rps\Rps.csproj" />
     <ProjectReference Include="..\Shapes\Shapes.csproj" />
   </ItemGroup>
 
