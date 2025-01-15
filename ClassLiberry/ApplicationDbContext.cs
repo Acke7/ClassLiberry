@@ -10,7 +10,9 @@ namespace ClassLiberry
 {
     public class ApplicationDbContext : DbContext
     {
-       public  DbSet<ShapeData> shapeDatas { get; set; }
+        public DbSet<ShapeData> shapeDatas { get; set; }
+        //public DbSet<RPCGame> rpcGames { get; set; }
+        public DbSet<CalculationData> Calculations { get; set; }
         public ApplicationDbContext()
         {
             // en tom konstruktor behövs för att skapa migrations

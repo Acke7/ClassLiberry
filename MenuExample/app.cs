@@ -3,6 +3,9 @@ using Shapes;
 using Shapes.Strategy;
 using ClassLiberry;
 using MyClassLibrary;
+using EasyCalculator.Service;
+using Calculator;
+using EasyCalculator;
 
 namespace MainMenu
 {
@@ -53,10 +56,11 @@ namespace MainMenu
                     var shapesMenu = new ShapesMenu(shapeService);
                     shapesMenu.MainMenu();
                     break;
-                //case "2": // Shapes
-                //    var gotoProject2 = new Project2App(FormsServices);
-                //    gotoProject2.Project2ShowMenu();
-                //    break;
+                case "2": // Shapes
+                    var calculatorService = new CalculatorService(_dbContext);
+                    var calculatorMenu = new CalculatorMenu(calculatorService);
+                    calculatorMenu.MainMenu();
+                    break;
                 //case "3": // Rock Paper Scissors
                 //    var gotoProject3 = new Project3App(RPSServices);
                 //    gotoProject3.Project3ShowMenu();
