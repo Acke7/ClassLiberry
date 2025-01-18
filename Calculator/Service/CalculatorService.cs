@@ -22,10 +22,32 @@ namespace EasyCalculator.Service
 
         public void PerformCalculation()
         {
-            var context = new Context();
+            Console.WriteLine("Ange beräkning (t.ex. 1+1):");
+            string input = Console.ReadLine();
 
-            Console.WriteLine("Välj operation: (+, -, *, /, √, %)");
-            string operation = Console.ReadLine();
+            var context = new Context();
+            double operand1 = 0, operand2 = 0;
+            string operation = "";
+
+            // Parse the input
+            foreach (char c in input)
+            {
+                if (char.IsDigit(c) || c == '.')
+                {
+                    if (string.IsNullOrEmpty(operation))
+                    {
+                        operand1 = operand1 * 10 + (c - '0');
+                    }
+                    else
+                    {
+                        operand2 = operand2 * 10 + (c - '0');
+                    }
+                }
+                else
+                {
+                    operation = c.ToString();
+                }
+            }
 
             switch (operation)
             {
@@ -52,19 +74,8 @@ namespace EasyCalculator.Service
                     return;
             }
 
-            Console.WriteLine("Ange första talet:");
-            var operand1 = Convert.ToDouble(Console.ReadLine());
-
-            double operand2 = 0;
-            if (operation != "√")
-            {
-                Console.WriteLine("Ange andra talet:");
-                operand2 = Convert.ToDouble(Console.ReadLine());
-            }
-
             var result = context.ExecuteStrategy(operand1, operand2);
             Console.WriteLine($"Resultat: {operand1} {operation} {operand2} = {result}");
-
 
             _dbContext.Calculations.Add(new CalculationData
             {
@@ -74,7 +85,6 @@ namespace EasyCalculator.Service
                 Result = result,
                 Date = DateTime.Now
             });
-
 
             _dbContext.SaveChanges();
             Console.WriteLine("Beräkningen har sparats!");

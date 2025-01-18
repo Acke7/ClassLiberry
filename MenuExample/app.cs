@@ -1,5 +1,4 @@
-﻿
-using Shapes;
+﻿using Shapes;
 using Shapes.Strategy;
 using ClassLiberry;
 using MyClassLibrary;
@@ -8,43 +7,67 @@ using Calculator;
 using EasyCalculator;
 using RPC.Service;
 using Rps;
+using Rps.Service;
 
 namespace MainMenu
 {
-    public class app
+    public class App
     {
-        // Oh no!! The attack of the concretions!!
-        // A Factory sure would be nice here :)
-     
         private ApplicationDbContext _dbContext;
+        private IShapesService shapesService;
+        private ICalculatorService calculatorService;
+        private IRPCService rPCService;
+
         public void Run()
         {
             var build = new Build();
             _dbContext = build.BuildDb();
+            shapesService = new ShapeService(_dbContext);
+            calculatorService = new CalculatorService(_dbContext);
+            rPCService = new RPCService(_dbContext);
             ShowMainMenu();
-
         }
+
         public void ShowMainMenu()
         {
-            
+            int selectedIndex = 0;
+            string[] options = { "Shape Calculation →", "Numbers Calculator →", "RPC Game →", "Exit" };
+
             while (true)
             {
                 Console.Clear();
                 Console.WriteLine("Welcome");
                 Console.WriteLine("===============");
-                Console.WriteLine("1: Shape Calculation 1");
-                Console.WriteLine("2: Project 2");
-                Console.WriteLine("3: Project 3");
-                Console.WriteLine("0: Exit");
 
-                var response = Console.ReadLine();
-                if (response == "0")
+                for (int i = 0; i < options.Length; i++)
                 {
-                    break;
+                    if (i == selectedIndex)
+                    {
+                        Console.WriteLine($"> {options[i]}");
+                    }
+                    else
+                    {
+                        Console.WriteLine($"  {options[i]}");
+                    }
                 }
-                else
+
+                var key = Console.ReadKey(true).Key;
+
+                switch (key)
                 {
-                    ReadResponse(response);
+                    case ConsoleKey.UpArrow:
+                        selectedIndex = (selectedIndex == 0) ? options.Length - 1 : selectedIndex - 1;
+                        break;
+                    case ConsoleKey.DownArrow:
+                        selectedIndex = (selectedIndex == options.Length - 1) ? 0 : selectedIndex + 1;
+                        break;
+                    case ConsoleKey.Enter:
+                        if (selectedIndex == options.Length - 1)
+                        {
+                            return;
+                        }
+                        ReadResponse((selectedIndex + 1).ToString());
+                        break;
                 }
             }
         }
@@ -53,19 +76,16 @@ namespace MainMenu
         {
             switch (resp)
             {
-                case "1": 
-                    var shapeService = new ShapeService(_dbContext);
-                    var shapesMenu = new ShapesMenu(shapeService);
+                case "1":
+                    var shapesMenu = new ShapesMenu(shapesService);
                     shapesMenu.MainMenu();
                     break;
                 case "2": // Shapes
-                    var calculatorService = new CalculatorService(_dbContext);
                     var calculatorMenu = new CalculatorMenu(calculatorService);
                     calculatorMenu.MainMenu();
                     break;
                 case "3": // Rock Paper Scissors
-                    var rpcService = new RPCService(_dbContext);
-                    var rpcMenu = new RPCMenu(rpcService);
+                    var rpcMenu = new RPCMenu(rPCService);
                     rpcMenu.MainMenu();
                     break;
                 default:
