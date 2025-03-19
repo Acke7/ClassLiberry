@@ -1,7 +1,7 @@
-﻿using EasyCalculator.Service;
+﻿using Calculator.Service;
 using System;
 
-namespace EasyCalculator
+namespace Calculator
 {
     public class CalculatorMenu
     {

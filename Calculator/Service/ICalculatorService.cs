@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 using System;
 
-namespace EasyCalculator.Service
+namespace Calculator.Service
 {
     public interface ICalculatorService
     {

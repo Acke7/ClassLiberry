@@ -1,8 +1,8 @@
-﻿using ClassLiberry;
+﻿using ClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
-namespace MyClassLibrary
+namespace ClassLibrary
 {
     public class Build
     {

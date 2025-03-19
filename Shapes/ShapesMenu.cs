@@ -1,4 +1,4 @@
-﻿using ClassLiberry;
+﻿using ClassLibrary;
 using Microsoft.EntityFrameworkCore;
 using MyClassLibrary.Models;
 using Shapes.Strategy;

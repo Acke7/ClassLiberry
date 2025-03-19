@@ -3,49 +3,141 @@
 using System;
 using System.Linq;
 using Rps.Service;
-using ClassLiberry;
+using ClassLibrary;
 using MyClassLibrary.Models;
 
-namespace RPC.Service
+namespace Rps.Service
 {
     public class RPCService : IRPCService
     {
+        private int playerWins = 0;
+        private int computerWins = 0;
+        private int ties = 0;
         public ApplicationDbContext _dbContext { get; set; }
 
         public RPCService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
-
         public void PlayGame()
         {
-            Console.WriteLine("Välj ditt drag: (1) Sten, (2) Sax, (3) Påse");
-            var playerMove = Convert.ToInt32(Console.ReadLine());
-
-            if (playerMove < 1 || playerMove > 3)
+            while (true)
             {
-                Console.WriteLine("Ogiltigt val. Försök igen.");
-                return;
+                Console.Clear();
+                Console.WriteLine("Använd ↑ och ↓ för att välja ett drag och tryck Enter:");
+                string[] options = { "[🪨] Sten", "[✂] Sax", "[📜] Påse", "[🚪] Avsluta" };
+                int selectedIndex = 0;
+
+                // Arrow key navigation loop
+                while (true)
+                {
+                    Console.Clear();
+                    Console.WriteLine("Välj ditt drag:");
+
+                    // Display options with highlighted selection
+                    for (int i = 0; i < options.Length; i++)
+                    {
+                        if (i == selectedIndex)
+                            Console.WriteLine($"→ {options[i]}"); // Highlight selected option
+                        else
+                            Console.WriteLine($"  {options[i]}");
+                    }
+
+                    var key = Console.ReadKey(true).Key;
+                    if (key == ConsoleKey.UpArrow)
+                        selectedIndex = (selectedIndex == 0) ? options.Length - 1 : selectedIndex - 1;
+                    if (key == ConsoleKey.DownArrow)
+                        selectedIndex = (selectedIndex == options.Length - 1) ? 0 : selectedIndex + 1;
+                    if (key == ConsoleKey.Enter)
+                        break;
+                }
+
+                // If the player chooses to exit the game
+                if (selectedIndex == 3)
+                {
+                    Console.WriteLine("\nTack för att du spelade!");
+                    Console.WriteLine($"🏆 Vinster: {playerWins} | 🤖 Förluster: {computerWins} | 🤝 Oavgjorda: {ties}");
+                    return;
+                }
+
+                // Mapping selected option to game moves
+                int playerMove = selectedIndex + 1;  // 1 = Sten, 2 = Sax, 3 = Påse
+                int computerMove = new Random().Next(1, 4);  // Random move for computer
+
+                // Countdown animation
+                Console.Write("\n1... ");
+                Thread.Sleep(500);
+                Console.Write("2... ");
+                Thread.Sleep(500);
+                Console.Write("3... ");
+                Thread.Sleep(500);
+                Console.WriteLine(" SHOOT!\n");
+
+                // Determine winner and update score
+                string result = DetermineWinner(playerMove, computerMove);
+                UpdateScore(result);
+
+                // Display results
+                Console.WriteLine($"Ditt drag: {MoveToString(playerMove)} | Datorns drag: {MoveToString(computerMove)}");
+                Console.WriteLine($"🔹 Resultat: {result}\n");
+
+                // Save the game result to the database
+                _dbContext.rpcGames.Add(new Rpc
+                {
+                    PlayerMove = playerMove,
+                    ComputerMove = computerMove,
+                    Result = result,
+                    Date = DateTime.Now
+                });
+                _dbContext.SaveChanges();
+
+                // Wait for user to continue
+                Console.WriteLine("Spelet har sparats! Tryck på valfri tangent för att fortsätta.");
+                Console.ReadKey();
             }
-
-            var computerMove = new Random().Next(1, 4);
-            var result = DetermineWinner(playerMove, computerMove);
-
-            Console.WriteLine($"Ditt drag: {MoveToString(playerMove)}, Datorns drag: {MoveToString(computerMove)}");
-            Console.WriteLine($"Resultat: {result}");
-
-            _dbContext.rpcGames.Add(new Rpc
-            {
-                PlayerMove = playerMove,
-                ComputerMove = computerMove,
-                Result = result,
-                Date = DateTime.Now
-            });
-            _dbContext.SaveChanges();
-            Console.WriteLine("Spelet har sparats! Tryck på valfri tangent för att fortsätta.");
-            Console.ReadLine();
         }
 
+        private int ConvertMove(string input)
+        {
+            return input switch
+            {
+                "sten" => 1,
+                "sax" => 2,
+                "påse" => 3,
+                _ => 0
+            };
+        }
+
+        private string MoveToString(int move)
+        {
+            return move switch
+            {
+                1 => "🪨 Sten",
+                2 => "✂️ Sax",
+                3 => "📜 Påse",
+                _ => "Okänt"
+            };
+        }
+
+        private string DetermineWinner(int playerMove, int computerMove)
+        {
+            if (playerMove == computerMove) return "Oavgjort";
+
+            if ((playerMove == 1 && computerMove == 2) ||  // Sten slår Sax
+                (playerMove == 2 && computerMove == 3) ||  // Sax slår Påse
+                (playerMove == 3 && computerMove == 1))    // Påse slår Sten
+            {
+                return "Spelaren vinner!";
+            }
+
+            return "Datorn vinner!";
+        }
+        private void UpdateScore(string result)
+        {
+            if (result == "Spelaren vinner!") playerWins++;
+            else if (result == "Datorn vinner!") computerWins++;
+            else ties++;
+        }
         public void ShowAllGames()
         {
             var games = _dbContext.rpcGames.ToList();
@@ -113,29 +205,6 @@ namespace RPC.Service
             return game;
         }
 
-        private string DetermineWinner(int playerMove, int computerMove)
-        {
-            if (playerMove == computerMove) return "Oavgjort";
-
-            if (playerMove == 1 && computerMove == 2 || // Sten slår Sax
-                playerMove == 2 && computerMove == 3 || // Sax slår Påse
-                playerMove == 3 && computerMove == 1)   // Påse slår Sten
-            {
-                return "Vinst";
-            }
-
-            return "Förlust";
-        }
-
-        private string MoveToString(int move)
-        {
-            return move switch
-            {
-                1 => "Sten",
-                2 => "Sax",
-                3 => "Påse",
-                _ => "Okänt"
-            };
-        }
+    
     }
 }

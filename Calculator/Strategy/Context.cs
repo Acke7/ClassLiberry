@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyCalculator.Strategy
+namespace Calculator.Strategy
 {
     public class Context
     {

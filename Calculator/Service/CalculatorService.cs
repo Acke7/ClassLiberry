@@ -1,14 +1,14 @@
-﻿using ClassLiberry;
+﻿using ClassLibrary;
 
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using EasyCalculator.Strategy;
+using Calculator.Strategy;
 using MyClassLibrary.Models;
 
-namespace EasyCalculator.Service
+namespace Calculator.Service
 {
     public class CalculatorService : ICalculatorService
     {
