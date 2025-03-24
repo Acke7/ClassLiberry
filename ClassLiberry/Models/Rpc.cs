@@ -13,5 +13,7 @@ namespace MyClassLibrary.Models
         public int ComputerMove { get; set; }
         public string Result { get; set; }
         public DateTime Date { get; set; }
+
+        public decimal AverageResult { get; set; }
     }
 }

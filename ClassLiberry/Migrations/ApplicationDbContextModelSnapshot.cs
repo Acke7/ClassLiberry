@@ -59,6 +59,9 @@ namespace ClassLibrary.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<decimal>("AverageResult")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<int>("ComputerMove")
                         .HasColumnType("int");
 

@@ -34,11 +34,10 @@ namespace Rps.Service
                     Console.Clear();
                     Console.WriteLine("Välj ditt drag:");
 
-                    // Display options with highlighted selection
                     for (int i = 0; i < options.Length; i++)
                     {
                         if (i == selectedIndex)
-                            Console.WriteLine($"→ {options[i]}"); // Highlight selected option
+                            Console.WriteLine($"→ {options[i]}");
                         else
                             Console.WriteLine($"  {options[i]}");
                     }
@@ -52,7 +51,6 @@ namespace Rps.Service
                         break;
                 }
 
-                // If the player chooses to exit the game
                 if (selectedIndex == 3)
                 {
                     Console.WriteLine("\nTack för att du spelade!");
@@ -60,11 +58,9 @@ namespace Rps.Service
                     return;
                 }
 
-                // Mapping selected option to game moves
-                int playerMove = selectedIndex + 1;  // 1 = Sten, 2 = Sax, 3 = Påse
-                int computerMove = new Random().Next(1, 4);  // Random move for computer
+                int playerMove = selectedIndex + 1;
+                int computerMove = new Random().Next(1, 4);
 
-                // Countdown animation
                 Console.Write("\n1... ");
                 Thread.Sleep(500);
                 Console.Write("2... ");
@@ -73,13 +69,13 @@ namespace Rps.Service
                 Thread.Sleep(500);
                 Console.WriteLine(" SHOOT!\n");
 
-                // Determine winner and update score
                 string result = DetermineWinner(playerMove, computerMove);
                 UpdateScore(result);
 
-                // Display results
-                Console.WriteLine($"Ditt drag: {MoveToString(playerMove)} | Datorns drag: {MoveToString(computerMove)}");
-                Console.WriteLine($"🔹 Resultat: {result}\n");
+                // Calculate average win rate
+                int totalGames = _dbContext.rpcGames.Count() + 1;
+                int totalWins = _dbContext.rpcGames.Count(g => g.Result == "Spelaren vinner!") + (result == "Spelaren vinner!" ? 1 : 0);
+                decimal winRate = totalGames > 0 ? (totalWins / (decimal)totalGames) * 100 : 0;
 
                 // Save the game result to the database
                 _dbContext.rpcGames.Add(new Rpc
@@ -87,12 +83,16 @@ namespace Rps.Service
                     PlayerMove = playerMove,
                     ComputerMove = computerMove,
                     Result = result,
-                    Date = DateTime.Now
+                    Date = DateTime.Now,
+                    AverageResult = winRate // Store the win rate in the database
                 });
                 _dbContext.SaveChanges();
 
-                // Wait for user to continue
-                Console.WriteLine("Spelet har sparats! Tryck på valfri tangent för att fortsätta.");
+                Console.WriteLine($"Ditt drag: {MoveToString(playerMove)} | Datorns drag: {MoveToString(computerMove)}");
+                Console.WriteLine($"🔹 Resultat: {result}");
+                Console.WriteLine($"\nGenomsnittlig vinstprocent: {winRate:F2}%");
+
+                Console.WriteLine("\nSpelet har sparats! Tryck på valfri tangent för att fortsätta.");
                 Console.ReadKey();
             }
         }
@@ -118,7 +118,7 @@ namespace Rps.Service
                 _ => "Okänt"
             };
         }
-
+      
         private string DetermineWinner(int playerMove, int computerMove)
         {
             if (playerMove == computerMove) return "Oavgjort";
@@ -141,10 +141,20 @@ namespace Rps.Service
         public void ShowAllGames()
         {
             var games = _dbContext.rpcGames.ToList();
+            if (!games.Any())
+            {
+                Console.WriteLine("Inga spel har spelats ännu.");
+                return;
+            }
+
+            Console.WriteLine("=== Spelhistorik ===");
             foreach (var game in games)
             {
-                Console.WriteLine($"ID: {game.Id}, Spelare: {MoveToString(game.PlayerMove)}, Dator: {MoveToString(game.ComputerMove)}, Resultat: {game.Result}, Datum: {game.Date}");
+                Console.WriteLine($"ID: {game.Id}, Spelare: {MoveToString(game.PlayerMove)}, Dator: {MoveToString(game.ComputerMove)}, Resultat: {game.Result}, Datum: {game.Date}, Genomsnittlig vinstprocent: {game.AverageResult:F2}%");
             }
+
+            decimal latestWinRate = games.Last().AverageResult;
+            Console.WriteLine($"\n🔹 Senaste uppdaterade genomsnittliga vinstprocent: {latestWinRate:F2}%");
         }
 
         public void DeleteGameById()

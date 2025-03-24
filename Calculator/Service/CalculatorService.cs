@@ -22,7 +22,7 @@ namespace Calculator.Service
 
         public void PerformCalculation()
         {
-            Console.WriteLine("Ange beräkning (t.ex. 1+1):");
+            Console.WriteLine("Ange en beräkning med siffror och en operator (t.ex. 5 + 3, 7 * 9, √16, 100 % 3):");
             string input = Console.ReadLine();
 
             var context = new Context();
